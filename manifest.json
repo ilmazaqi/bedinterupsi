@@ -1,15 +1,22 @@
 {
   "short_name": "SmartBED",
   "name": "Smart BED Lost - RSUD Dr. Moewardi",
+  "description": "Kalkulator Kompensasi Interupsi Radioterapi",
   "icons": [
     {
-      "src": "https://cdn-icons-png.flaticon.com/512/2328/2328144.png",
+      "src": "bed.png",
       "type": "image/png",
       "sizes": "512x512",
       "purpose": "any maskable"
+    },
+    {
+      "src": "bed.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any"
     }
   ],
-  "start_url": ".",
+  "start_url": "./index.html",
   "display": "standalone",
   "theme_color": "#1e3a8a",
   "background_color": "#f8fafc"
