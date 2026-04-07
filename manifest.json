@@ -1,0 +1,15 @@
+{
+  "short_name": "MedPhysCalc",
+  "name": "Medical Physics Calculator",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/2328/2328144.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#2563eb",
+  "background_color": "#ffffff"
+}
