@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart BED Lost - RSUD Dr. Moewardi</title>
+    
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1e3a8a">
+    <link rel="apple-touch-icon" href="bed.png">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @media print {
@@ -139,6 +144,7 @@
     </div>
 
     <script>
+        // Logika Perhitungan
         function hitungKompensasi() {
             const patient = document.getElementById('patientName').value;
             const d = parseFloat(document.getElementById('dose').value);
@@ -159,30 +165,4 @@
             const nAdd = bedLost / (rePerFrac - k);
             const nAddRounded = Math.ceil(nAdd);
 
-            if(patient) document.getElementById('printPatientInfo').innerText = "Pasien: " + patient;
-            
-            document.getElementById('resPlan').innerText = nTotal + " x " + d + " Gy (Total " + (nTotal * d).toFixed(1) + " Gy)";
-            document.getElementById('resStatus').innerText = "Selesai " + nDone + " dari " + nTotal + " Fraksi";
-            document.getElementById('resSisaNormal').innerText = nSisa + " Fraksi";
-            document.getElementById('resDays').innerText = days + " Hari Kalender";
-            document.getElementById('resBedLost').innerText = bedLost.toFixed(2) + " Gy";
-            document.getElementById('resAddFrac').innerText = "+" + nAddRounded + " Fraksi";
-
-            const report = document.getElementById('reportArea');
-            report.classList.remove('hidden');
-            
-            if (window.innerWidth < 1024) report.scrollIntoView({ behavior: 'smooth' });
-        }
-    </script>
-    <script>
-    if ('service worker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('./sw.js')
-                .then(reg => console.log('Service Worker terdaftar!', reg))
-                .catch(err => console.log('Registrasi gagal:', err));
-        });
-    }
-    </script>
-    
-</body>
-</html>
+            if(patient) document.getElementById('printPatientInfo').
