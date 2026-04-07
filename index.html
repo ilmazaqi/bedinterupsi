@@ -4,21 +4,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart BED Lost - RSUD Dr. Moewardi</title>
+    
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="bed.png">
+    <meta name="theme-color" content="#1e3a8a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        /* Desain Modern untuk Layar */
+        body { background: #f1f5f9; }
+
         @media print {
             .no-print { display: none !important; }
-            body { background: white; padding: 0; }
-            .card { border: none; box-shadow: none; width: 100%; max-width: 100%; }
+            body { background: white !important; padding: 0; }
+            
+            /* Menghilangkan shadow secara paksa saat dicetak */
+            .bg-white, .rounded-2xl, #reportArea, .shadow-xl, .shadow-sm, .shadow-inner { 
+                border: 1px solid #e2e8f0 !important; 
+                box-shadow: none !important; 
+                filter: none !important;
+            }
+            
+            #reportArea { 
+                display: block !important; 
+                width: 100%; 
+                max-width: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            /* Kotak Rekomendasi Biru tetap berwarna saat cetak (tergantung setting browser) */
+            .bg-blue-600 { 
+                background-color: #2563eb !important; 
+                -webkit-print-color-adjust: exact; 
+                color-adjust: exact;
+                color: white !important;
+            }
+
             .print-header { display: block !important; text-align: center; margin-bottom: 20px; }
-            #reportArea { display: block !important; border: none; }
         }
+
         .print-header { display: none; }
         .fade-in { animation: fadeIn 0.5s ease-in; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
-<body class="p-4 md:p-8 bg-slate-50 font-sans text-slate-900">
+<body class="p-4 md:p-8 font-sans text-slate-900">
 
     <div class="max-w-5xl mx-auto">
         
@@ -35,49 +68,49 @@
                     <input type="text" id="patientName" class="w-full border-b-2 border-slate-100 focus:border-blue-500 outline-none py-1 transition" placeholder="Nama Pasien / No. RM">
                 </div>
 
-                <h3 class="font-bold text-lg mb-4 text-blue-700 border-b pb-2 flex items-center">
-                    <span class="bg-blue-100 text-blue-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">1</span>
+                <h3 class="font-bold text-lg mb-4 text-blue-700 border-b pb-2 flex items-center uppercase tracking-tight">
+                    <span class="bg-blue-100 text-blue-700 rounded-full w-6 h-6 flex items-center justify-center text-[10px] mr-2">1</span>
                     Rencana & Progres
                 </h3>
                 <div class="grid grid-cols-2 gap-4 mb-6">
                     <div>
-                        <label class="block text-xs font-bold text-slate-600 uppercase">Dosis/Fraksi (Gy)</label>
-                        <input type="number" id="dose" step="0.01" class="mt-1 w-full border border-slate-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 outline-none" placeholder="2">
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase">Dosis/Fraksi (Gy)</label>
+                        <input type="number" id="dose" step="0.01" class="mt-1 w-full border border-slate-200 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 outline-none font-bold" placeholder="2">
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-slate-600 uppercase">Total Fraksi Rencana</label>
-                        <input type="number" id="totalFrac" class="mt-1 w-full border border-slate-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 outline-none" placeholder="25">
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase">Total Fraksi</label>
+                        <input type="number" id="totalFrac" class="mt-1 w-full border border-slate-200 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 outline-none font-bold" placeholder="25">
                     </div>
                     <div class="col-span-2">
-                        <label class="block text-xs font-bold text-slate-600 uppercase">Fraksi Terakhir yang Selesai</label>
-                        <input type="number" id="fracDone" class="mt-1 w-full border border-slate-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Fraksi ke berapa interupsi terjadi?">
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase">Fraksi Terakhir Selesai</label>
+                        <input type="number" id="fracDone" class="mt-1 w-full border border-slate-200 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 outline-none font-bold" placeholder="0">
                     </div>
                 </div>
 
-                <h3 class="font-bold text-lg mb-4 text-red-600 border-b pb-2 flex items-center">
-                    <span class="bg-red-100 text-red-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">2</span>
+                <h3 class="font-bold text-lg mb-4 text-red-600 border-b pb-2 flex items-center uppercase tracking-tight">
+                    <span class="bg-red-100 text-red-700 rounded-full w-6 h-6 flex items-center justify-center text-[10px] mr-2">2</span>
                     Data Interupsi
                 </h3>
                 <div class="grid grid-cols-2 gap-4 mb-6">
                     <div>
-                        <label class="block text-xs font-bold text-slate-600 uppercase">Hari Interupsi (Kalender)</label>
-                        <input type="number" id="daysLost" class="mt-1 w-full border border-slate-300 rounded-lg p-2 focus:ring-2 focus:ring-red-500 outline-none" placeholder="Jumlah hari">
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase">Hari Libur</label>
+                        <input type="number" id="daysLost" class="mt-1 w-full border border-slate-200 rounded-lg p-2 focus:ring-2 focus:ring-red-500 outline-none font-bold" placeholder="Hari">
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-slate-600 uppercase">Alpha/Beta (Gy)</label>
-                        <select id="ab" class="mt-1 w-full border border-slate-300 rounded-lg p-2 focus:ring-2 focus:ring-red-500 outline-none">
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase">Alpha/Beta</label>
+                        <select id="ab" class="mt-1 w-full border border-slate-200 rounded-lg p-2 focus:ring-2 focus:ring-red-500 outline-none font-bold">
                             <option value="10">10 (Tumor)</option>
-                            <option value="3">3 (Late Tissue)</option>
+                            <option value="3">3 (Late)</option>
                         </select>
                     </div>
                     <div class="col-span-2">
-                        <label class="block text-xs font-bold text-slate-600 uppercase">K-factor (Repopulasi/Hari)</label>
-                        <input type="number" id="kFactor" step="0.1" class="mt-1 w-full border border-slate-300 rounded-lg p-2 focus:ring-2 focus:ring-red-500 outline-none" value="0.6">
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase">K-factor (Default Head & Neck)</label>
+                        <input type="number" id="kFactor" step="0.1" class="mt-1 w-full border border-slate-200 rounded-lg p-2 focus:ring-2 focus:ring-red-500 outline-none font-bold" value="0.6">
                     </div>
                 </div>
 
-                <button onclick="hitungKompensasi()" class="w-full bg-blue-600 text-white font-bold py-4 rounded-xl hover:bg-blue-700 transition shadow-lg shadow-blue-200">
-                    Mulai Evaluasi
+                <button onclick="hitungKompensasi()" class="w-full bg-blue-600 text-white font-bold py-4 rounded-xl hover:bg-blue-700 transition shadow-lg shadow-blue-200 uppercase tracking-widest text-sm">
+                    Generate Analysis
                 </button>
             </main>
 
@@ -93,45 +126,37 @@
                         Laporan Evaluasi Interupsi Penyinaran
                     </h2>
                     
-                    <div id="printPatientInfo" class="mb-4 font-bold text-sm text-slate-700"></div>
+                    <div id="printPatientInfo" class="mb-4 font-bold text-sm text-blue-900 bg-blue-50 p-3 rounded-lg border border-blue-100"></div>
 
-                    <div class="grid grid-cols-2 gap-y-3 text-sm border-b pb-6">
+                    <div class="grid grid-cols-2 gap-y-4 text-sm border-b pb-6">
                         <span class="text-slate-500">Dosis Rencana:</span>
                         <span id="resPlan" class="font-bold text-right text-slate-800">-</span>
                         
-                        <span class="text-slate-500">Status Terakhir:</span>
-                        <span id="resStatus" class="font-bold text-right text-blue-600">-</span>
+                        <span class="text-slate-500 text-red-500">Durasi Interupsi:</span>
+                        <span id="resDays" class="font-bold text-right text-red-600">-</span>
                         
                         <span class="text-slate-500">Sisa Fraksi (Normal):</span>
                         <span id="resSisaNormal" class="font-bold text-right text-slate-800">-</span>
                     </div>
 
-                    <div class="grid grid-cols-2 gap-y-3 text-sm border-b pb-6 pt-2">
-                        <span class="text-slate-500">Durasi Interupsi:</span>
-                        <span id="resDays" class="font-bold text-right text-red-600">-</span>
-                        
-                        <span class="text-slate-500">BED Terbuang (BED<sub>lost</sub>):</span>
-                        <span id="resBedLost" class="font-bold text-right text-slate-800">-</span>
-                    </div>
-
                     <div class="bg-blue-600 p-6 rounded-2xl text-center text-white shadow-inner">
-                        <p class="text-xs uppercase font-bold opacity-80 mb-2">Saran Penambahan Fraksi</p>
-                        <p id="resAddFrac" class="text-5xl font-black leading-tight">-</p>
+                        <p class="text-xs uppercase font-bold opacity-80 mb-2 tracking-widest">Saran Penambahan Fraksi</p>
+                        <p id="resAddFrac" class="text-6xl font-black leading-tight">-</p>
                     </div>
 
-                    <div class="mt-20 grid grid-cols-2 gap-8 text-center text-[11px] uppercase tracking-tight">
+                    <div class="mt-24 grid grid-cols-2 gap-8 text-center text-[10px] uppercase font-bold tracking-widest">
                         <div>
-                            <p class="mb-24">Fisikawan Medis,</p>
-                            <div class="border-b border-black w-40 mx-auto"></div>
+                            <p class="mb-24 text-slate-400">Fisikawan Medis,</p>
+                            <div class="border-b-2 border-slate-200 w-40 mx-auto"></div>
                         </div>
                         <div>
-                            <p class="mb-24">Dokter Sp.Onk.Rad,</p>
-                            <div class="border-b border-black w-40 mx-auto"></div>
+                            <p class="mb-24 text-slate-400">Dokter Sp.Onk.Rad,</p>
+                            <div class="border-b-2 border-slate-200 w-40 mx-auto"></div>
                         </div>
                     </div>
                 </div>
 
-                <button onclick="window.print()" class="mt-10 w-full bg-slate-800 text-white font-bold py-3 rounded-xl no-print hover:bg-black transition flex items-center justify-center">
+                <button onclick="window.print()" class="mt-10 w-full bg-slate-900 text-white font-bold py-4 rounded-xl no-print hover:bg-black transition-all flex items-center justify-center shadow-lg">
                     Cetak Laporan Resmi
                 </button>
             </section>
@@ -139,40 +164,53 @@
     </div>
 
     <script>
-        function hitungKompensasi() {
-            const patient = document.getElementById('patientName').value;
-            const d = parseFloat(document.getElementById('dose').value);
-            const nTotal = parseFloat(document.getElementById('totalFrac').value);
-            const nDone = parseFloat(document.getElementById('fracDone').value);
-            const ab = parseFloat(document.getElementById('ab').value);
-            const days = parseFloat(document.getElementById('daysLost').value);
-            const k = parseFloat(document.getElementById('kFactor').value);
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('./sw.js')
+            .then(reg => console.log('PWA Ready!'))
+            .catch(err => console.log('PWA Failed', err));
+        });
+      }
 
-            if (isNaN(d) || isNaN(nTotal) || isNaN(nDone) || isNaN(days)) {
-                alert("Mohon lengkapi semua data input.");
-                return;
-            }
+      function hitungKompensasi() {
+          const patient = document.getElementById('patientName').value;
+          const d = parseFloat(document.getElementById('dose').value);
+          const nTotal = parseFloat(document.getElementById('totalFrac').value);
+          const nDone = parseFloat(document.getElementById('fracDone').value);
+          const ab = parseFloat(document.getElementById('ab').value);
+          const days = parseFloat(document.getElementById('daysLost').value);
+          const k = parseFloat(document.getElementById('kFactor').value);
 
-            const nSisa = nTotal - nDone;
-            const bedLost = k * days;
-            const rePerFrac = d * (1 + (d / ab));
-            const nAdd = bedLost / (rePerFrac - k);
-            const nAddRounded = Math.ceil(nAdd);
+          if (isNaN(d) || isNaN(nTotal) || isNaN(nDone) || isNaN(days)) {
+              alert("Lengkapi semua parameter input.");
+              return;
+          }
 
-            if(patient) document.getElementById('printPatientInfo').innerText = "Pasien: " + patient;
-            
-            document.getElementById('resPlan').innerText = nTotal + " x " + d + " Gy (Total " + (nTotal * d).toFixed(1) + " Gy)";
-            document.getElementById('resStatus').innerText = "Selesai " + nDone + " dari " + nTotal + " Fraksi";
-            document.getElementById('resSisaNormal').innerText = nSisa + " Fraksi";
-            document.getElementById('resDays').innerText = days + " Hari Kalender";
-            document.getElementById('resBedLost').innerText = bedLost.toFixed(2) + " Gy";
-            document.getElementById('resAddFrac').innerText = "+" + nAddRounded + " Fraksi";
+          const nSisa = nTotal - nDone;
+          const bedLost = k * days;
+          const rePerFrac = d * (1 + (d / ab));
+          const nAdd = bedLost / (rePerFrac - k);
+          const nAddRounded = Math.ceil(nAdd);
 
-            const report = document.getElementById('reportArea');
-            report.classList.remove('hidden');
-            
-            if (window.innerWidth < 1024) report.scrollIntoView({ behavior: 'smooth' });
-        }
+          const pInfo = document.getElementById('printPatientInfo');
+          if(patient) {
+              pInfo.innerText = "PASIEN: " + patient.toUpperCase();
+              pInfo.classList.remove('hidden');
+          } else {
+              pInfo.classList.add('hidden');
+          }
+          
+          document.getElementById('resPlan').innerText = nTotal + " x " + d + " Gy";
+          document.getElementById('resStatus').innerText = "Sudah fraksi ke-" + nDone;
+          document.getElementById('resSisaNormal').innerText = nSisa + " Fraksi";
+          document.getElementById('resDays').innerText = days + " Hari";
+          document.getElementById('resAddFrac').innerText = "+" + nAddRounded;
+
+          const report = document.getElementById('reportArea');
+          report.classList.remove('hidden');
+          
+          if (window.innerWidth < 1024) report.scrollIntoView({ behavior: 'smooth' });
+      }
     </script>
 </body>
 </html>
